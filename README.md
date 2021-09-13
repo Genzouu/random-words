@@ -30,10 +30,13 @@ Examples:
     'army beautiful became if exactly'
     
     console.log(randomWords({ exactly: 5, join: '' }))
-        'armybeautifulbecameifexactly'
+    'armybeautifulbecameifexactly'
 
     console.log(randomWords({exactly: 5, maxLength: 4}))
     ['army','come','eye','five','fur']
+
+    console.log(randomWords({exactly: 5, minLength: 5, maxLength: 10}))
+    ['refused', 'loose', truck', possibly', 'exciting']
 
     console.log(randomWords({exactly:5, wordsPerString:2}))
     [ 'salt practical', 'also brief', 'country muscle', 'neighborhood beyond', 'grew pig' ]

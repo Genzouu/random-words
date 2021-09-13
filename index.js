@@ -248,23 +248,27 @@ var wordList = [
 
 function words(options) {
 
+  var highestWordLength = getHighestWordLength();
   function word() {
-    if (options && options.maxLength > 1) {
-      return generateWordWithMaxLength();
+    if (options && (options.minLength > 1 || options.maxLength > 1)) {
+      if (!options.minLength) options.minLength = 2;
+      if (!options.maxLength) options.maxLength = highestWordLength;
+      if (options.minLength > highestWordLength) options.minLength = highestWordLength;
+      if (options.minLength > options.maxLength) options.minLength = options.maxLength;
+      return generateWordWithMinMaxLength();
     } else {
       return generateRandomWord();
     }
   }
-
-  function generateWordWithMaxLength() {
-    var rightSize = false;
-    var wordUsed;
+  
+  function generateWordWithMinMaxLength() {
+    let rightSize = false;
+    let wordUsed;
     while (!rightSize) {  
       wordUsed = generateRandomWord();
-      if(wordUsed.length <= options.maxLength) {
+      if (wordUsed.length >= options.minLength && wordUsed.length <= options.maxLength) {
         rightSize = true;
       }
-
     }
     return wordUsed;
   }
@@ -275,6 +279,14 @@ function words(options) {
 
   function randInt(lessThan) {
     return Math.floor(Math.random() * lessThan);
+  }
+
+  function getHighestWordLength() {
+      var highestLength = 0;
+      for (let i = 0; i < wordList.length; i++) {
+        if (wordList[i].length > highestLength) highestLength = wordList[i].length;
+      }
+      return highestLength;
   }
 
   // No arguments = generate one word

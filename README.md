@@ -37,6 +37,9 @@ Examples:
 
     console.log(randomWords({exactly: 5, minLength: 5, maxLength: 10}))
     ['refused', 'loose', truck', possibly', 'exciting']
+	
+	console.log(randomWords({ exactly: 3, difficulty: "hard" }))
+	['ability', 'climb', 'cry', ]
 
     console.log(randomWords({exactly:5, wordsPerString:2}))
     [ 'salt practical', 'also brief', 'country muscle', 'neighborhood beyond', 'grew pig' ]

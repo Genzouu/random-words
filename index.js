@@ -250,22 +250,22 @@ function words(options) {
 
   const wordListDifficulties = [];
   const letterWeights = [
-      { letters: ['e'], weight: 250 },
-      { letters: ['t'], weight: 600 },
-      { letters: ['a'], weight: 750 },
-      { letters: ['o'], weight: 1000 },
-      { letters: ['i', 'n', 's'], weight: 1250 },
-      { letters: ['h', 'r'], weight: 1500 },
-      { letters: ['d', 'l'], weight: 2000 },
-      { letters: ['c', 'u', 'm', 'w', 'f'], weight: 3500 },
-      { letters: ['g', 'y', 'p'], weight: 4500 },
-      { letters: ['b'], weight: 5000 },
-      { letters: ['v'], weight: 6750 },
-      { letters: ['k'], weight: 7000 },
-      { letters: ['j'], weight: 8400 },
-      { letters: ['x'], weight: 8500 },
-      { letters: ['q'], weight: 9500 },
-      { letters: ['z'], weight: 10000 },
+        ['e'],
+        ['t'],
+        ['a'],
+        ['o'], 
+        ['i', 'n', 's'],
+        ['h', 'r'],
+        ['d', 'l'], 
+        ['c', 'u', 'm', 'w', 'f'],
+        ['g', 'y', 'p'], 
+        ['b'],
+        ['v'],
+        ['k'],
+        ['j'],
+        ['x'],
+        ['q'],
+        ['z'],
   ];
   calculateWordDifficulties();
 
@@ -288,18 +288,20 @@ function words(options) {
     let range = {start: 0, end: 0};
     switch (difficulty) {
         case "easy":
-            range.start = 30000;
-            range.end = 1000000;
+            range.start = 0;
+            range.end = 10000;
             break;
         case "normal":
-            range.start = 17500;
-            range.end = 30000;
+            range.start = 10000;
+            range.end = 20000;
             break;
         case "hard":
-            range.start = 0;
-            range.end = 17500;
+            range.start = 20000;
+            range.end = 1000000;
             break;
         default:
+			range.start = 0;
+			range.end = 1000000;
             break;
     }
 
@@ -341,13 +343,12 @@ function words(options) {
       return highestLength;
   }
 
-  // the lower the number, the harder the word is to guess
+  // the higher the number, the harder the word is to guess
   function calculateWordDifficulties() {
-    let numVowels = 0;
-    let uniqueLetters = [];
-    let uniqueLetterWeightTotal = 0;
-    let letterWeightTotal = 0;
     for (let w = 0; w < wordList.length; w++) {
+        let numVowels = 0;
+        let uniqueLetters = [];
+        let letterWeightTotal = 0;
         for (let l = 0; l < wordList[w].length; l++) {
             if (!uniqueLetters.includes(wordList[w].charAt(l))) {
                 if ('aeiou'.indexOf(wordList[w].charAt(l)) !== -1) {
@@ -355,17 +356,14 @@ function words(options) {
                 }
                 uniqueLetters.push(wordList[w].charAt(l));
                 for (let we = 0; we < letterWeights.length; we++) {
-                    for (ll = 0; ll < letterWeights[we].letters.length; ll++) {
-                        if (letterWeights[we].letters.includes(wordList[w].charAt(l))) {
-                            letterWeightTotal += letterWeights[we].weight;
-                        }
-                    }
+                  if (letterWeights[we].includes(wordList[w].charAt(l))) {
+                    letterWeightTotal += (we+1);
+                    break;
+                  }
                 }
             }
         }
-        letterWeightTotal /= uniqueLetters.length;
-        uniqueLetterWeightTotal = uniqueLetters.length / wordList[w].length * 10000;
-        wordListDifficulties[w] = (letterWeightTotal + uniqueLetterWeightTotal) / numVowels;
+        wordListDifficulties[w] = 1000 * (uniqueLetters.length / wordList[w].length) * (1 - (numVowels / wordList[w].length)) * letterWeightTotal;
     }
   }
 

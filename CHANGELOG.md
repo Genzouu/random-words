@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.3
+
+* Addition of 'difficulty' option. You can choose from "easy", "normal" or "hard". 
+
+## 1.1.2
+
+* Addition of 'minLength' option.
+
 ## 1.1.1
 
 * Use `var` in a small amount of newer code that used `let`, to match ES5 legacy support status of the rest of the module. We should probably decide on a strategy for moving this module to ES6, but there is no urgency.
